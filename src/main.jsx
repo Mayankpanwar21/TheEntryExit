@@ -18,10 +18,10 @@ const pct=n=>`${Number(n||0).toFixed(2)}%`;
 const num=v=>Number(v)||0;
 
 function App(){
- const[dark,setDark]=useState(()=>localStorage.getItem('tee-theme')!=='light');
+ const[dark,setDark]=useState(true);
  const[mobile,setMobile]=useState(false);
  const[route,setRoute]=useState(()=>location.hash.replace('#/','')||'home');
- useEffect(()=>{document.documentElement.dataset.theme=dark?'dark':'light';localStorage.setItem('tee-theme',dark?'dark':'light')},[dark]);
+ useEffect(()=>{document.documentElement.dataset.theme=dark?'dark':'light';try{localStorage.setItem('tee-theme',dark?'dark':'light')}catch(e){}},[dark]);
  useEffect(()=>{const fn=()=>setRoute(location.hash.replace('#/','')||'home');addEventListener('hashchange',fn);return()=>removeEventListener('hashchange',fn)},[]);
  const navigate=slug=>{location.hash=slug==='home'?'':'/'+slug;setMobile(false)};
  return <div className="site"><Background dark={dark}/><Header dark={dark} setDark={setDark} mobile={mobile} setMobile={setMobile} navigate={navigate}/>
